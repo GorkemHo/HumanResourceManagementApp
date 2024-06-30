@@ -1,0 +1,88 @@
+﻿@model ExpenseRequestVm
+
+@{
+    ViewData["Title"] = "GetExpenseRequestById";
+    Layout = "_EmployeeLayout";
+}
+
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h1>Expense Request Details</h1>
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th class="col-sm-2">@Html.DisplayNameFor(model => model.ExpenseType)</th>
+                        <td class="col-sm-10">@Html.DisplayFor(model => model.ExpenseType)</td>
+                    </tr>
+                    <tr>
+                        <th class="col-sm-2">@Html.DisplayNameFor(model => model.Amount)</th>
+                        <td class="col-sm-10">@Html.DisplayFor(model => model.Amount)</td>
+                    </tr>
+                    <tr>
+                        <th class="col-sm-2">@Html.DisplayNameFor(model => model.Currency)</th>
+                        <td class="col-sm-10">@Html.DisplayFor(model => model.Currency)</td>
+                    </tr>
+                    <tr>
+                        <th class="col-sm-2">@Html.DisplayNameFor(model => model.ResponseDate)</th>
+                        <td class="col-sm-10">
+                            @if (Model.ResponseDate != null)
+                            {
+                                @Html.DisplayFor(model => model.ResponseDate)
+                            }
+                            else
+                            {
+                                <p>Henüz yanıtlanmamış.</p>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="col-sm-2">@Html.DisplayNameFor(model => model.ApprovalStatus)</th>
+                        <td class="col-sm-10">@Html.DisplayFor(model => model.ApprovalStatus)</td>
+                    </tr>
+                    <tr>
+                        <th class="col-sm-2">@Html.DisplayNameFor(model => model.RequestDate)</th>
+                        <td class="col-sm-10">@Html.DisplayFor(model => model.RequestDate)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <div id="accordion">
+                                <div class="card ml-5">
+                                    <div class="card-header" id="headingOne">
+                                        <h5 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                Photo
+                                            </button>
+                                        </h5>
+                                    </div>
+
+                                    <div id="collapseOne" class="collapse hide pl-5 ml-5" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body ml-5">
+                                            @if (Model.ImageData != null)
+                                            {
+                                                var imageBase64 = Convert.ToBase64String(Model.ImageData);
+                                                <img src="data:image/jpeg;base64,@imageBase64" alt="Photo" class="img-fluid" />
+                                            }
+                                            else
+                                            {
+                                                <p>No photo available</p>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div>
+
+    <a class="btn btn-primary m-5" asp-action="GetAllByPersonel">Back to List</a>
+</div>

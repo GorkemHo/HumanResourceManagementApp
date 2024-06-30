@@ -1,0 +1,166 @@
+﻿@using IkMvc.Application.Model.Dto.CompanyDtos
+@using IkMvc.Application.Model.Dto.DepartmentDtos
+@using IkMvc.Application.Model.Dto.JobDtos
+@model Ik_Bitirme.Application.Models.DTos.UserDtos.UpdateProfileDto
+
+@{
+    ViewData["Title"] = "Update";
+    Layout = "_EmployeeLayout";
+    List<DepartmentDto> departments = TempData["Departments"] as List<DepartmentDto>;
+    List<JobDto> jobs = TempData["Jobs"] as List<JobDto>;
+    List<CompanyDto> companies = TempData["Companies"] as List<CompanyDto>;
+}
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<h1 class="text-3xl font-semibold mb-6">Update Profile</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div>
+        <form asp-action="Update" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4"></div>
+            <input asp-for="Id" type="hidden" id="Id">
+             @*<div class="mb-4">
+            <label for="Id" class="block text-gray-700 text-sm font-bold mb-2">Id:</label>
+            <input asp-for="Id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Id">
+            <span asp-validation-for="Id" class="text-red-500 text-xs italic"></span>
+        </div>*@ 
+            <div class="mb-4">
+            <label for="UserName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="UserName" type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="UserName">
+            <span asp-validation-for="UserName" class="text-red-500 text-xs italic"></span>
+        </div>
+
+            <div class="mb-4">
+            <label for="Email" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Email"type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Email">
+            <span asp-validation-for="Email" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="FirstName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="FirstName"type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="FirstName">
+            <span asp-validation-for="FirstName" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="MiddleName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="MiddleName"type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="MiddleName">
+            <span asp-validation-for="MiddleName" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="LastName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="LastName"type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="LastName">
+            <span asp-validation-for="LastName" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="SecondLastName" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="SecondLastName"type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="SecondLastName">
+            <span asp-validation-for="SecondLastName" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="BirthDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="BirthDate"type="hidden"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="BirthDate">
+            <span asp-validation-for="BirthDate" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="BirthPlace" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="BirthPlace"type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="BirthPlace">
+            <span asp-validation-for="BirthPlace" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="TcIdentity" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="TcIdentity"type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="TcIdentity">
+            <span asp-validation-for="TcIdentity" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="HireDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="HireDate" type="hidden" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="HireDate">
+            <span asp-validation-for="HireDate" class="text-red-500 text-xs italic"></span>
+        </div>
+        <div class="mb-4">
+            <label for="TerminationDate" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="TerminationDate"type="hidden"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="TerminationDate">
+            <span asp-validation-for="TerminationDate" class="text-red-500 text-xs italic"></span>
+        </div>
+
+
+            @if (departments != null)
+        {
+            <div class="form-group">
+                
+                <input asp-for="DepartmentId" type="hidden"  class="form-control">                  
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+        }
+
+
+        @if (jobs != null)
+        {
+            <div class="form-group">
+                
+                <input asp-for="JobId" type="hidden" class="form-control">
+               
+                <span asp-validation-for="JobId" class="text-danger"></span>
+            </div>
+        }
+
+        @if (companies != null)
+        {
+            <div class="form-group">
+                
+                <input asp-for="CompanyId" type="hidden"  class="form-control">
+                  
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
+        }
+
+
+        <div class="mb-4">
+            <label for="Salary" class="block text-gray-700 text-sm font-bold mb-2"></label>
+            <input asp-for="Salary" type="hidden"  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Salary">
+            <span asp-validation-for="Salary" class="text-red-500 text-xs italic"></span>
+        </div>
+
+
+            <div class="mb-4">
+                <label for="imageFile" class="block text-gray-700 text-sm font-bold mb-2">Image:</label>
+                <input type="file" name="imageFile" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="imageFile">
+                <span asp-validation-for="ImageData" class="text-red-500 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label for="PhoneNumber" class="block text-gray-700 text-sm font-bold mb-2">Phone Number:</label>
+                <input asp-for="PhoneNumber" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="PhoneNumber">
+                <span asp-validation-for="PhoneNumber" class="text-red-500 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label for="Address" class="block text-gray-700 text-sm font-bold mb-2">Address:</label>
+                <input asp-for="Address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Address">
+                <span asp-validation-for="Address" class="text-red-500 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label for="Password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                <input asp-for="Password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="Password">
+                <span asp-validation-for="Password" class="text-red-500 text-xs italic"></span>
+            </div>
+            <div class="mb-4">
+                <label for="ConfirmPassword" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password:</label>
+                <input asp-for="ConfirmPassword" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="ConfirmPassword">
+                <span asp-validation-for="ConfirmPassword" class="text-red-500 text-xs italic"></span>
+            </div>
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Home" class="text-blue-500 hover:text-blue-800">Back to Home Page</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

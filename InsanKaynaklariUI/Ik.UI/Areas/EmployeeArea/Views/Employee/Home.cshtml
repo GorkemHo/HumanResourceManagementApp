@@ -1,0 +1,98 @@
+﻿@using IkMvc.Application.Model.Dto.CompanyDtos
+@using IkMvc.Application.Model.Dto.DepartmentDtos
+@using IkMvc.Application.Model.Dto.JobDtos
+@model Ik_Bitirme.Application.Models.DTos.UserDtos.UserDto
+
+@{
+    ViewData["Title"] = "Employee Home Page";
+    List<DepartmentDto> departments = TempData["Departments"] as List<DepartmentDto>;
+    List<JobDto> jobs = TempData["Jobs"] as List<JobDto>;
+    List<CompanyDto> companies = TempData["Companies"] as List<CompanyDto>;
+}
+
+@*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/home.css">
+
+</head>*@
+<body>
+    <div class="container">
+        <h1>@ViewData["Title"]</h1>
+        <div class="card ">
+            <div class="row">
+                <div class="col-6">
+                    @if (Model.ImageData != null)
+                    {
+                        <div class="profile-photos">
+
+                            @{
+                                var imageBase64 = Convert.ToBase64String(Model.ImageData);
+                            }
+                            <img src="data:image/jpeg;base64,@imageBase64" alt="Profile Photo" />
+                        </div>
+                    }
+                </div>
+
+
+                <div class="col-6 align-self-center">
+                    <h4 class="card-title text-center" style="color: blue; font-family:'Times New Roman', sans-serif; font-size: 18px; font-weight: bold;">Welcome @Model.UserName!</h4>
+                </div>
+            </div>
+
+            <hr>
+            <div class="container">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered" style="background-color: #f8f9fa;">
+                        <thead class="thead-light">
+                            <tr>
+                                <th style="width: 30%;">Attribute</th>
+                                <th style="width: 70%;">Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Name Surname:</strong></td>
+                                <td>@Model.FirstName @Model.LastName</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email:</strong></td>
+                                <td>@Model.Email</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phone:</strong></td>
+                                <td>@Model.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Address:</strong></td>
+                                <td>@Model.Address</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Company:</strong></td>
+                                <td>@companies.FirstOrDefault(x => x.CompanyId == Model.CompanyId)?.Name</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Department:</strong></td>
+                                <td>@departments.FirstOrDefault(x => x.DepartmentId == Model.DepartmentId)?.Name</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Job:</strong></td>
+                                <td>@jobs.FirstOrDefault(x => x.Id == Model.JobId)?.Name</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="btn-group">
+            <a asp-action="Update" asp-route-username="@Model.UserName" class="btn btn-primary">Update</a>
+            <a asp-action="Details" asp-route-username="@Model.UserName" class="btn btn-secondary">Details</a>
+        </div>
+
+    </div>
+</body>
+@*</html>*@

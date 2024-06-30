@@ -1,0 +1,116 @@
+﻿@using IkMvc.Application.Model.Vm.PagenationVm
+@model IEnumerable<IkMvc.Application.Model.Dto.DirectorDtos.DirectorDto>
+
+@{
+    ViewData["Title"] = "GetDirectorList";
+    List<CompanyDto> companies = TempData["Companies"] as List<CompanyDto>;
+}
+
+@{
+    ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title text-center">Yönetici Listesi</h3>
+                </div>
+                <div class="card-body">
+                    <div class="container mt-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a class="btn btn-primary" asp-action="CreateDirector">Yeni Şirket Yöneticisi Ekle</a>
+                            <input type="text" id="searchInput" class="form-control w-25" placeholder="Search by First Name">
+                        </div>
+                    </div>
+
+                    <div class="table-responsive shadow p-3 mb-5 mt-3 bg-white rounded">
+                        <table class="table table-striped table-bordered text-center">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Phone Number</th>
+                                    <th>Email</th>
+                                    <th>Company Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.FirstName</td>
+                                        <td>@item.LastName</td>
+                                        <td>@item.PhoneNumber</td>
+                                        <td>@item.Email</td>
+                                        @if (item.CompanyId != null)
+                                        {
+                                            <td>@companies.FirstOrDefault(x => x.CompanyId == item.CompanyId).Name</td>
+                                        }
+                                        else
+                                        {
+                                            <td>No company assigned</td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    @if (pager.TotalPages > 0)
+                    {
+                        <div class="container">
+                            <ul class="pagination justify-content-end">
+                                @if (pager.CurrentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="GetDirectorList" asp-route-page="1">First</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="GetDirectorList" asp-route-page="(@pager.CurrentPage-1)">Previous</a>
+                                    </li>
+                                }
+                                @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                                {
+                                    <li class="page-item @(pge == pager.CurrentPage ? "active": "")">
+                                        <a class="page-link" asp-action="GetDirectorList" asp-route-page="@pge">@pge</a>
+                                    </li>
+                                }
+                                @if (pager.CurrentPage < pager.TotalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="GetDirectorList" asp-route-page="(@pager.CurrentPage+1)">Next</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="GetDirectorList" asp-route-page="@pager.TotalPages">Last</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('tbody tr').filter(function () {
+                    $(this).toggle($(this).find('td:nth-child(1)').text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}

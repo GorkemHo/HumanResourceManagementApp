@@ -1,0 +1,125 @@
+﻿@model IkMvc.Application.Model.Dto.AdvanceDtos.UpdateAdvanceDtos
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">Edit</h2>
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" value="@Model.Id" />
+                <input type="hidden" asp-for="EmployeeId" />
+                <div class="form-group">
+                    <label asp-for="Amount" class="control-label">Amount</label>
+                    <input asp-for="Amount" class="form-control" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Currency" class="control-label">Currency</label>
+                    <select asp-for="Currency" class="form-control">
+                        <option value="">Select Currency</option>
+                        <option value="TRY">TRY</option>
+                        <option value="EUR">EUR</option>
+                        <option value="USD">USD</option>
+                    </select>
+                    <span asp-validation-for="Currency" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Description</label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    
+                    <input type="hidden" asp-for="ApprovalStatus" class="form-control">                                        
+                    <span asp-validation-for="ApprovalStatus" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    
+                    <input  asp-for="RequestDate" class="form-control" type="hidden" readonly />
+                </div>
+                <div class="form-group">
+                    
+                    <input asp-for="CreateDate" class="form-control" type="hidden" readonly />
+                </div>
+                <div class="form-group">                    
+                    <input asp-for="ResponseDate" class="form-control" type="hidden" />
+                    <span asp-validation-for="ResponseDate" class="text-danger"></span>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="@Url.Action("Index", "Advance")" class="btn btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* <h2>Edit</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input type="hidden" asp-for="EmployeeId" />    
+    <div class="form-group mb-3">
+        <label asp-for="Amount" class="control-label"></label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Currency" class="control-label"></label>
+        <select asp-for="Currency" class="form-control">
+            <option value="">Select Currency</option>
+            <option value="TRY">TRY</option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+        </select>
+        <span asp-validation-for="Currency" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" />
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="ApprovalStatus" class="control-label"></label>
+        <select asp-for="ApprovalStatus" class="form-control">
+            <option value="">Select Approval Status</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Pending">Pending</option>
+        </select>
+        <span asp-validation-for="ApprovalStatus" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="RequestDate" class="control-label"></label>
+        <input asp-for="RequestDate" class="form-control" type="date"  readonly />
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="CreateDate" class="control-label"></label>
+        <input asp-for="CreateDate" class="form-control" type="date" readonly />
+    </div>
+    <div class="form-group mb-3">
+        <label asp-for="ResponseDate" class="control-label"></label>
+        <input asp-for="ResponseDate" class="form-control" type="date" />
+        <span asp-validation-for="ResponseDate" class="text-danger"></span>
+    </div>
+    <div class="form-group d-block">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="@Url.Action("Index", "Advance")" class="btn btn-secondary">Back</a>
+    </div>
+</form>
+ *@

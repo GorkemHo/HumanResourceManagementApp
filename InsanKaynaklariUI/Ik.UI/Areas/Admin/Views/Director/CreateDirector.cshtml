@@ -1,0 +1,162 @@
+﻿@model RegisterDirectorDto
+
+@{
+    ViewData["Title"] = "CreateDirector";
+    List<JobDto> jobs = TempData["Jobs"] as List<JobDto>;
+    List<DepartmentDto> departments = TempData["Departments"] as List<DepartmentDto>;
+    List<CompanyDto> companies = TempData["Companies"] as List<CompanyDto>;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">        
+        <div class="col-md-6">
+            <div class="shadow p-4 rounded ">
+                <form asp-area="Admin" asp-controller="Director" asp-action="CreateDirector" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="UserName" class="control-label"></label>
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword" class="control-label"></label>
+                        <input asp-for="ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MiddleName" class="control-label"></label>
+                        <input asp-for="MiddleName" class="form-control" />
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SecondLastName" class="control-label"></label>
+                        <input asp-for="SecondLastName" class="form-control" />
+                        <span asp-validation-for="SecondLastName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="BirthDate" class="control-label"></label>
+                        <input asp-for="BirthDate" class="form-control" type="date" value="@DateTime.Now" min="1900-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BirthPlace" class="control-label"></label>
+                        <input asp-for="BirthPlace" class="form-control" />
+                        <span asp-validation-for="BirthPlace" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TcIdentity" class="control-label"></label>
+                        <input asp-for="TcIdentity" class="form-control" />
+                        <span asp-validation-for="TcIdentity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HireDate" class="control-label"></label>
+                        <input asp-for="HireDate" class="form-control" type="date" value="@DateTime.Now" min="2010-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                        <span asp-validation-for="HireDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <!-- Other form fields... -->
+                    <div class="form-group">
+                        <label asp-for="Salary" class="control-label"></label>
+                        <input asp-for="Salary" class="form-control" />
+                        <span asp-validation-for="Salary" class="text-danger"></span>
+                    </div>                    
+                    @if (jobs != null)
+                    {
+                        <div class="form-group">
+                            <label asp-for="JobId" class="control-label">Jobs</label>
+                            <select asp-for="JobId" class="form-control">
+                                @foreach (var job in jobs)
+                                {
+                                    <option value="@job.Id">@job.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="JobId" class="text-danger"></span>
+                        </div>
+                    }
+
+                    @if (departments != null)
+                    {
+                        <div class="form-group">
+                            <label asp-for="DepartmentId" class="control-label">Department</label>
+                            <select asp-for="DepartmentId" class="form-control">
+                                @foreach (var department in departments)
+                                {
+                                    <option value="@department.DepartmentId">@department.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                        </div>
+                    }
+
+                    @if (jobs != null)
+                    {
+                        <div class="form-group">
+                            <label asp-for="CompanyId" class="control-label">Companies</label>
+                            <select asp-for="CompanyId" class="form-control">
+                                @foreach (var company in companies)
+                                {
+                                    <option value="@company.CompanyId">@company.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="CompanyId" class="text-danger"></span>
+                        </div>
+                    }
+                    <div class="form-group">
+                        <label class="btn btn-secondary">
+                            Upload Photo: <input type="file" name="UploadPath" class="form-control d-none" onchange="$('#upload-path-info').text(this.files[0].name)">
+                        </label>
+                        <span id="upload-path-info" class="text-muted">Choose file...</span>
+                        <span asp-validation-for="UploadPath" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="text-center">
+                <form asp-action="GetDirectorList" method="get">
+                    <button type="submit" class="btn btn-primary">Listeye Dön</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

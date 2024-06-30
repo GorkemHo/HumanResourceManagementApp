@@ -1,0 +1,99 @@
+﻿@model UpdateCompanyDto
+
+
+<div class="container mt-5">
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="text-center mb-4" style="font-weight: bold; color: #333;">Edit Company Information</h2>
+                    <form asp-action="Edit" enctype="multipart/form-data" method="post">
+                        <input type="hidden" asp-for="CompanyId" />
+
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">Company Name:</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label">Title:</label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="MersisNo" class="control-label">Mersis No:</label>
+                            <input asp-for="MersisNo" class="form-control" />
+                            <span asp-validation-for="MersisNo" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="TaxNo" class="control-label">Tax No:</label>
+                            <input asp-for="TaxNo" class="form-control" />
+                            <span asp-validation-for="TaxNo" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="TaxAdministration" class="control-label">Tax Administration:</label>
+                            <input asp-for="TaxAdministration" class="form-control" />
+                            <span asp-validation-for="TaxAdministration" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber" class="control-label">Phone Number:</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label">Address:</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="YearOfEstablishment" class="control-label">Year of Establishment:</label>
+                            <input asp-for="YearOfEstablishment" class="form-control" type="date" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="UpdateDate" class="control-label">Update Date:</label>
+                            <input asp-for="UpdateDate" class="form-control" type="date" readonly />
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ContractStartDate" class="control-label">Contract Start Date:</label>
+                            <input asp-for="ContractStartDate" class="form-control" type="date" min="2020-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="ContractStartDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="ContractEndDate" class="control-label">Contract End Date:</label>
+                            <input asp-for="ContractEndDate" class="form-control" type="date" min="2020-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="ContractEndDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label">Company Email:</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="btn btn-secondary">
+                                Upload Logo <input type="file" name="UploadPath" class="form-control d-none" onchange="$('#upload-path-info').text(this.files[0].name)">
+                            </label>
+                            <span id="upload-path-info" class="text-muted">Choose file...</span>
+                            <span asp-validation-for="UploadPath" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a href="@Url.Action("Index", "Company")" class="btn btn-secondary">Back</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

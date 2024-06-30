@@ -1,0 +1,93 @@
+﻿
+@model IkMvc.Application.Model.Dto.ExpenseRequestDtos.CreateExpenseRequestDto
+
+@using System.ComponentModel.DataAnnotations
+
+
+@* @{
+    var expenseTypes = Enum.GetValues(typeof(ExpenseType))
+                          .Cast<ExpenseType>()
+                          .Select(e => new SelectListItem
+                          {
+                              Value = e.ToString(),
+                              Text = ((DisplayAttribute)typeof(ExpenseType)
+                                      .GetMember(e.ToString())
+                                      .First()
+                                      .GetCustomAttributes(typeof(DisplayAttribute), false)
+                                      .First()).Name
+                          })
+                          .ToList();
+} *@
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_EmployeeLayout";
+    List<ExpenseType> expenseTypes = TempData["ExpenseTypes"] as List<ExpenseType>;
+    List<CurrencyType> currencyTypes = TempData["CurrencyType"] as List<CurrencyType>;
+}
+
+<div class="container mt-5">
+ 
+    <div class="row justify-content-center">
+            <div class="col-md-6">
+            <h1 class="text-center">Harcama Oluştur</h1>
+            <hr />
+                <form asp-area="EmployeeArea" asp-action="Create" asp-controller="ExpenseRequests" method="post" enctype="multipart/form-data">
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    @*<div class="form-group">
+                            <label asp-for="EmployeeId" class="control-label">Employee ID</label>
+                            <input asp-for="EmployeeId" class="form-control" />
+                            <span asp-validation-for="EmployeeId" class="text-danger"></span>
+                        </div>*@
+                    <div class="form-group">
+                    <label asp-for="ExpenseType" class="control-label">Expense Type</label>
+                        <select asp-for="ExpenseType" class="form-control">
+                            @foreach (var type in expenseTypes)
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        </select>
+                        <span asp-validation-for="ExpenseType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="Amount" class="control-label">Amount</label>
+                        <input asp-for="Amount" class="form-control" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="Currency" class="control-label">Currency</label>
+                        <select asp-for="Currency" class="form-control">
+                            @foreach (var type in currencyTypes)
+                            {
+                                <option value="@type">@type</option>
+                            }
+                        </select>
+                        <span asp-validation-for="Currency" class="text-danger"></span>
+                    </div>
+
+                <div class="form-group">
+                    <label class="btn btn-secondary">
+                        Upload Photo: <input type="file" name="UploadPath" class="form-control d-none" onchange="$('#upload-path-info').text(this.files[0].name)">
+                    </label>
+                    <span id="upload-path-info" class="text-muted">Choose file...</span>
+                    <span asp-validation-for="UploadPath" class="text-danger"></span>
+                </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Create</button>
+                        <a asp-action="GetAllByPersonel" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

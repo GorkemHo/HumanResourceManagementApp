@@ -1,0 +1,120 @@
+﻿@using IkMvc.Application.Model.Dto.DepartmentDtos
+@using IkMvc.Application.Model.Dto.JobDtos
+@{
+    List<DepartmentDto> department = TempData["Departments"] as List<DepartmentDto>;
+    List<JobDto> job = TempData["Jobs"] as List<JobDto>;
+}
+
+    
+    
+<body>
+    <div class="container user-details-container">
+        <h1 class="text-center mb-5">User Details</h1>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- User Photo -->
+                        <div class="text-center mb-4">
+                            @if (Model.ImageData != null)
+                            {
+                                var imageBase64 = Convert.ToBase64String(Model.ImageData);
+                                <img src="data:image/jpeg;base64,@imageBase64" alt="Photo" class="user-img" />
+                            }
+                            else
+                            {
+                                <p>No photo available</p>
+                            }
+                            <!-- Add dynamic photo functions if needed -->
+                        </div>
+                        <!-- /User Photo -->
+                    </div>
+                    <div class="col-md-6">
+                        <!-- User Information -->
+                        <dl class="user-info">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <dt>Username:</dt>
+                                    <dd>@Model.UserName</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Email:</dt>
+                                    <dd>@Model.Email</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>First Name:</dt>
+                                    <dd>@Model.FirstName</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Middle Name:</dt>
+                                    <dd>@Model.MiddleName</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Last Name:</dt>
+                                    <dd>@Model.LastName</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Second Last Name:</dt>
+                                    <dd>@Model.SecondLastName</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Birth Date:</dt>
+                                    <dd>@Model.BirthDate</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Birth Place:</dt>
+                                    <dd>@Model.BirthPlace</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>TC Identity:</dt>
+                                    <dd>@Model.TcIdentity</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Hire Date:</dt>
+                                    <dd>@Model.HireDate</dd>
+                                    @* <dd>@Model.HireDate.ToString("dd/MM/yyyy")</dd> *@
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Termination Date:</dt>
+                                    <dd>@Model.TerminationDate</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Phone Number:</dt>
+                                    <dd>@Model.PhoneNumber</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Address:</dt>
+                                    <dd>@Model.Address</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Salary:</dt>
+                                    <dd>@Model.Salary</dd>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dt>Job Name:</dt>
+                                    <dd>@job.FirstOrDefault(x => x.Id == Model.JobId).Name</dd>
+                                </div>
+                                
+                                <div class="col-sm-6">
+                                    <dt>Department Name:</dt>
+                                    <dd>@department.FirstOrDefault(x => x.DepartmentId == Model.DepartmentId).Name</dd>
+                                </div>
+
+                                
+                        </dl>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-between">
+            <a asp-action="UpdateAdmin" class="btn btn-primary">Update Admin</a>
+            <a asp-action="Index" class="btn btn-secondary">Back to Home Page</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (optional, if you need JS functionality) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+
+

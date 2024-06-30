@@ -1,0 +1,70 @@
+﻿@using IkMvc.Application.Model.Dto.DepartmentDtos
+@using IkMvc.Application.Model.Dto.JobDtos
+@model IkMvc.Application.Model.Dto.AdminDtos.AdminDto
+@{
+    ViewData["Title"] = "Index";
+    List<DepartmentDto> department = TempData["Departments"] as List<DepartmentDto>;
+    List<JobDto> job = TempData["Jobs"] as List<JobDto>;
+
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="~/css/adminindex.css">
+
+</head>
+
+<body>
+    <div class="container mx-auto mt-8">
+        <h1 class="text-3xl font-bold text-center mb-8">Home Page</h1>
+        <div class="card">
+            <div class="profile-photo text-center">
+                <!-- 1. Profil fotoğrafını içeren div -->
+                @if (Model.ImageData != null)
+                {
+                    var imageBase64 = Convert.ToBase64String(Model.ImageData);
+                    <img src="data:image/jpeg;base64,@imageBase64" alt="Profile Photo" id="profile-photo" class="mx-auto" /> <!-- 2. Resmi yatayda ortalamak için mx-auto sınıfı eklendi -->
+                }
+                else
+                {
+                    <p class="no-photo">No profile photo available</p>
+                }
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">Username:</div>
+                <div class="col-sm-9">@Model.UserName</div>
+                <div class="col-sm-3">First Name:</div>
+                <div class="col-sm-9">@Model.FirstName</div>
+                <div class="col-sm-3">Email:</div>
+                <div class="col-sm-9">@Model.Email</div>
+                <div class="col-sm-3">Last Name:</div>
+                <div class="col-sm-9">@Model.LastName</div>
+
+                <div class="col-sm-3">Birth Place:</div>
+                <div class="col-sm-9">@Model.BirthPlace</div>
+                <div class="col-sm-3">Phone :</div>
+                <div class="col-sm-9">@Model.PhoneNumber</div>
+                <div class="col-sm-3">Adress :</div>
+                <div class="col-sm-9">@Model.Address</div>
+                <div class="col-sm-3">Job  :</div>
+                <div class="col-sm-9">@job.FirstOrDefault(x => x.Id == Model.JobId).Name</div>
+                <div class="col-sm-3">Department :</div>
+                <div class="col-sm-9">@department.FirstOrDefault(x => x.DepartmentId == Model.DepartmentId).Name</div>
+            </div>
+            <div class="btn-group">
+                <a asp-action="UpdateAdmin" asp-route-username="@Model.UserName" class="btn animate__animated animate__slideInLeft">Update</a>
+                <a asp-action="Details" asp-route-username="@Model.UserName" class="btn animate__animated animate__slideInRight">Details</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

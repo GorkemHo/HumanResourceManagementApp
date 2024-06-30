@@ -1,0 +1,166 @@
+﻿@using IkMvc.Application.Service.CompanyService
+@using IkMvc.Application.Service.DepartmentService
+@using IkMvc.Application.Service.JobService
+@model IkMvc.Application.Model.Dto.DirectorDtos.UpdateDirectorDto
+
+@{
+    ViewData["Title"] = "EditDirectorProfile";
+    Layout = "~/Areas/Director/Views/Shared/_DirectorLayout.cshtml";
+}
+
+<div class="container mt-3">
+		<div class="main-body">
+			<div class="row">
+			
+			
+				<div class="col-lg-8 offset-md-2">
+					<div class="card">
+                    <form asp-action="EditDirectorProfile" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label asp-for="UserName" class="control-label">Username</label>
+                            <input asp-for="UserName" class="form-control" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label">Password</label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="ConfirmPassword" class="control-label">Confirm Password</label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FirstName" class="control-label">First Name</label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MiddleName" class="control-label">Middle Name</label>
+                            <input asp-for="MiddleName" class="form-control" />
+                            <span asp-validation-for="MiddleName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="LastName" class="control-label">Last Name</label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="SecondLastName" class="control-label">Second Last Name</label>
+                            <input asp-for="SecondLastName" class="form-control" />
+                            <span asp-validation-for="SecondLastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BirthDate" class="control-label">Birth Date</label>
+                            <input type="date" asp-for="BirthDate" min="1900-01-01" max="2014-01-01" class="form-control" />
+                            <span asp-validation-for="BirthDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="BirthPlace" class="control-label">Birth Place</label>
+                            <input asp-for="BirthPlace" class="form-control" />
+                            <span asp-validation-for="BirthPlace" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="TcIdentity" class="control-label">Tc Identity No</label>
+                            <input asp-for="TcIdentity" class="form-control" />
+                            <span asp-validation-for="TcIdentity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="HireDate" class="control-label">Hire Date</label>
+                            <input asp-for="HireDate" class="form-control" min="2010-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" />
+                            <span asp-validation-for="HireDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber" class="control-label">Phone</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label">Address</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Salary" class="control-label">Salary</label>
+                            <input type="number" asp-for="Salary" class="form-control" />
+                            <span asp-validation-for="Salary" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="imageFile">Photograph:</label>
+                            <input type="file" name="imageFile" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="imageFile">
+                            <span asp-validation-for="ImageData" class="text-red-500 text-xs italic"></span>
+                        </div>
+
+
+                        <input type="hidden" asp-for="UpdateDate" value=@DateTime.Now class="form-control" />
+
+                     
+                        <div class="form-group">
+                            <label asp-for="JobId" class="control-label">İş</label>
+                            <select asp-for="JobId" class="form-control text-black">
+                                @foreach (JobDto dto in await JobService.Instance.GetAllJobs())
+                                {
+                                    <option value="@dto.Id">
+                                        @dto.Name
+                                    </option>
+                                }
+                            </select>
+                            <span asp-validation-for="JobId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="DepartmentId" class="control-label">Department</label>
+                            <select asp-for="DepartmentId" class="form-control text-black">
+                                @foreach (DepartmentDto dto in await DepartmentService.Instance.GetAllDepartments(ViewContext.HttpContext))
+                                {
+                                    <option value="@dto.DepartmentId">
+                                        @dto.Name
+                                    </option>
+                                }
+                            </select>
+                            <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CompanyId" class="control-label">Company</label>
+
+                            <select asp-for="CompanyId" class="form-control text-black">
+                                @foreach (CompanyDto dto in await CompanyService.Instance.GetAllCompanies(ViewContext.HttpContext))
+                                {
+                                    <option value="@dto.CompanyId">
+                                        @dto.Name
+                                    </option>
+                                }
+                            </select>
+                            <span asp-validation-for="CompanyId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Kaydet" class="btn btn-primary" />
+                            <a asp-action="Index" class="btn btn-secondary ml-2">Back to Home Page</a>
+                        </div>
+                    </form>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

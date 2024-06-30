@@ -1,0 +1,107 @@
+﻿@using IkMvc.Application.Model.Dto.CompanyDtos
+@using IkMvc.Application.Model.Dto.DepartmentDtos
+@using IkMvc.Application.Model.Dto.JobDtos
+@model Ik_Bitirme.Application.Models.DTos.UserDtos.UserDto
+
+@{
+    ViewData["Title"] = "Employee Details";
+    Layout = "_EmployeeLayout";
+    List<DepartmentDto> departments = TempData["Departments"] as List<DepartmentDto>;
+    List<JobDto> jobs = TempData["Jobs"] as List<JobDto>;
+    List<CompanyDto> companies = TempData["Companies"] as List<CompanyDto>;
+}
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold text-center mb-8">Employee Details</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        <!-- Kişisel Bilgiler -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <!-- Kişisel Fotoğraf -->
+            <div class="flex justify-center">
+                @if (Model.ImageData != null)
+                {
+                    var imageBase64 = Convert.ToBase64String(Model.ImageData);
+                    <img src="data:image/jpeg;base64,@imageBase64" alt="Photo" class="w-40 h-40 object-cover rounded-full border-4 border-gray-200">
+                }
+                else
+                {
+                    <div class="w-40 h-40 flex justify-center items-center rounded-full bg-gray-200 text-gray-500">
+                        <span>No Photo</span>
+                    </div>
+                }
+            </div>
+            <!-- /Kişisel Fotoğraf -->
+            <!-- Kişisel Bilgiler -->
+            <div class="mt-6">
+                <h2 class="text-xl font-bold mb-2">Personal Information</h2>
+                <dl class="grid grid-cols-2 gap-y-4">
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Username:</dt>
+                        <dd>@Model.UserName</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Email:</dt>
+                        <dd>@Model.Email</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Birth Date:</dt>
+                        <dd>@Model.BirthDate</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Phone Number:</dt>
+                        <dd>@Model.PhoneNumber</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Address:</dt>
+                        <dd>@Model.Address</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">TC Identity:</dt>
+                        <dd>@Model.TcIdentity</dd>
+                    </div>
+                </dl>
+            </div>
+            <!-- /Kişisel Bilgiler -->
+        </div>
+        <!-- /Kişisel Bilgiler -->
+        <!-- İş ve Şirket Bilgileri -->
+        <div class="bg-white rounded-lg shadow-md p-6 relative">
+            <!-- İş ve Şirket Bilgileri -->
+            <div>
+                <h2 class="text-xl font-bold mb-2">Job and Company Information</h2>
+                <dl class="grid grid-cols-2 gap-y-4">
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Job:</dt>
+                        <dd>@jobs.FirstOrDefault(x => x.Id == Model.JobId)?.Name</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Company:</dt>
+                        <dd>@companies.FirstOrDefault(x => x.CompanyId == Model.CompanyId)?.Name</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Department:</dt>
+                        <dd>@departments.FirstOrDefault(x => x.DepartmentId == Model.DepartmentId)?.Name</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Hire Date:</dt>
+                        <dd>@Model.HireDate</dd>
+                    </div>
+                    <div class="flex flex-col">
+                        <dt class="font-medium">Salary:</dt>
+                        <dd>@Model.Salary</dd>
+                    </div>
+                </dl>
+            </div>
+            <!-- /İş ve Şirket Bilgileri -->
+            <!-- Düzenle Butonu -->
+            <div class="absolute bottom-6 left-0 w-full">
+                <a asp-action="Update" class="block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md text-center">Edit Profile</a>
+            </div>
+            <!-- /Düzenle Butonu -->
+        </div>
+        <!-- /İş ve Şirket Bilgileri -->
+    </div>
+</div>

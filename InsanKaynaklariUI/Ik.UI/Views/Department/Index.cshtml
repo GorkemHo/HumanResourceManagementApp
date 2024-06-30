@@ -1,0 +1,110 @@
+﻿ @model List<IkMvc.Application.Model.Dto.DepartmentDtos.DepartmentDto>
+
+<h2>Departments</h2>
+
+<div class="mb-3">
+    <a href="@Url.Action("Create", "Department")" class="btn btn-success">Create New Department</a>
+</div>
+
+<input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by Name">
+
+@if (Model.Count > 0)
+{
+    <div class="table-responsive">
+        <table class="table table-striped" id="departmentTable">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="#" class="sort text-decoration-none text-primary" data-sort="iD">
+                            ID
+                        </a>
+                    </th>
+                    <th>
+                        <a href="#" class="sort text-decoration-none text-primary" data-sort="name">
+                            Name
+                        </a>
+                    </th>
+                    <th>
+                        <a href="#" class="sort text-decoration-none text-primary" data-sort="createDate">
+                            Creation Date
+                        </a>
+                    </th>
+                    <th>
+                        <a href="#" class="sort text-decoration-none text-primary" data-sort="lastUpdate">
+                            Last Update
+                        </a>
+                    </th>
+                    <th>
+                        <a href="#" class="sort text-decoration-none text-primary" data-sort="status">
+                            Status
+                        </a>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var department in Model)
+                {
+                    <tr>
+                        <td>@department.DepartmentId</td>
+                        <td>@department.Name</td>
+                        <td>@department.CreateDate.ToShortDateString()</td>
+                        <td>@(department.UpdateDate.HasValue ? department.UpdateDate.Value.ToShortDateString() : "-")</td>
+                        <td>@department.Status</td>
+                        <td>
+                            <div class="d-flex justify-content-start">
+                                <form asp-action="Delete" method="post" onsubmit="return confirm('Are you sure you want to delete this department?');">
+                                    <input type="hidden" name="id" value="@department.DepartmentId" />
+                                    <button type="submit" class="btn btn-sm btn-danger me-2">Delete</button>
+                                </form>
+                                <a href="@Url.Action("Edit", "Department", new { id = department.DepartmentId })" class="btn btn-sm btn-primary">Edit</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <p>No departments found.</p>
+}
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            // Sort function
+            $('.sort').on('click', function () {
+                var $table = $('#departmentTable');
+                var $rows = $table.find('tbody > tr').toArray().sort(comparer($(this).index()));
+                this.asc = !this.asc;
+                if (!this.asc) {
+                    $rows = $rows.reverse();
+                }
+                $table.children('tbody').empty().append($rows);
+            });
+
+            // Search function
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('#departmentTable tbody tr').filter(function () {
+                    $(this).toggle($(this).find('td:eq(1)').text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+
+        // Comparison function for sorting
+        function comparer(index) {
+            return function (a, b) {
+                var valA = getCellValue(a, index), valB = getCellValue(b, index)
+                return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+            }
+        }
+
+        // Function to get cell value
+        function getCellValue(row, index) {
+            return $(row).children('td').eq(index).text()
+        }
+    </script>
+}

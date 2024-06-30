@@ -1,0 +1,26 @@
+﻿/* Custom CSS for User Details Page */
+.user-details-container {
+    padding: 20px;
+    margin-top: 50px;
+}
+
+.user-img {
+    max-width: 200px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .user-img:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+
+.user-info dt {
+    font-weight: bold;
+}
+
+.user-info dd {
+    margin-left: 0;
+}

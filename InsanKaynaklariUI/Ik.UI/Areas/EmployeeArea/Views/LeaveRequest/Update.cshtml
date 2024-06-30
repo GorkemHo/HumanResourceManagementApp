@@ -1,0 +1,57 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model LeaveRequestVm
+
+<div class="container mt-5">
+    <h1>İzin İsteğini Güncelle</h1>
+
+    <form method="post" action="@Url.Action("Update", "LeaveRequest")">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <input type="hidden" name="EmployeeId" value="@Model.EmployeeId" />
+        <input type="hidden" name="RequestDate" value="@Model.RequestDate" />
+        <div class="mb-3">
+            <label for="LeaveType" class="form-label">Leave Type:</label>
+            <input type="text" class="form-control" id="LeaveType" name="LeaveType" value="@Model.LeaveType" required>
+        </div>
+        <div class="mb-3">
+            <label for="StartDate" class="form-label">Start Date:</label>
+            <input type="date" class="form-control" id="StartDate" name="StartDate" min="2010-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@Model.StartDate.ToString("yyyy-MM-dd")" onchange="calculateNumberOfDays()">
+        </div>
+        <div class="mb-3">
+            <label for="EndDate" class="form-label">End Date:</label>
+            <input type="date" class="form-control" id="EndDate" name="EndDate" min="2010-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" value="@Model.EndDate.ToString("yyyy-MM-dd")" onchange="calculateNumberOfDays()">
+        </div>
+        <div class="mb-3">
+            <label for="NumberOfDays" class="form-label">Number of Days:</label>
+            <input type="number" class="form-control" id="NumberOfDays" name="NumberOfDays" value="@Model.NumberOfDays" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="ApprovalStatus" class="form-label">Approval Status:</label>
+            <input type="text" class="form-control" name="ApprovalStatus" id="ApprovalStatus" value="@Model.ApprovalStatus" readonly />
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='@Url.Action("Index", "LeaveRequest")'">Cancel</button>
+    </form>
+</div>
+
+<script>
+    function calculateNumberOfDays() {
+        var startDate = new Date(document.getElementById("StartDate").value);
+        var endDate = new Date(document.getElementById("EndDate").value);
+
+        // Check if both start date and end date are not empty
+        if (startDate && endDate) {
+            var startTime = startDate.getTime();
+            var endTime = endDate.getTime();
+
+            var difference = Math.abs(endTime - startTime);
+            var numberOfDays = Math.ceil(difference / (1000 * 3600 * 24)) + 1;
+
+            document.getElementById("NumberOfDays").value = numberOfDays;
+        }
+    }
+</script>

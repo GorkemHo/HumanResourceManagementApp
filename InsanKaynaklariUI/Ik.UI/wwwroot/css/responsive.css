@@ -1,0 +1,15 @@
+﻿@media (max-width: 992px) {
+    .container {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    .footer .single-footer {
+        margin-bottom: 30px;
+    }
+}

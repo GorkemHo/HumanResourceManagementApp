@@ -1,0 +1,149 @@
+﻿@model List<IkMvc.Application.Model.Dto.AdvanceDtos.AdvanceDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+} 
+<div class="mt-5"><h2>Advance Requests</h2></div>
+
+
+<p>
+    <a asp-action="Create" class="btn btn-primary mt-3">Create New</a>
+</p>
+
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search by Description">
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered" id="advanceTable">
+        <thead>
+            <tr>                
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="amount">
+                        Amount
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="currency">
+                        Currency
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="description">
+                        Description
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="approvalStatus">
+                        Approval Status
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="requestDate">
+                        Request Date
+                        <span class="sort-icon"></span>
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="responseDate">
+                        Response Date
+                        <span class="sort-icon"></span>
+                    </a>
+                </th>
+                
+                
+                <th>Functions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var advance in Model)
+            {
+                <tr>
+                    <td>@advance.Amount</td>
+                    <td>@advance.Currency</td>
+                    <td class="description-column" data-toggle="tooltip" title="@advance.Description">
+                        @advance.Description
+                    </td>
+                    <td>@advance.ApprovalStatus</td>
+                    <td>@advance.RequestDate.ToShortDateString()</td>
+                    @if (advance.ResponseDate != null)
+                    {
+
+                        <td>@advance.RequestDate.ToShortDateString()</td>
+                    }
+                    else
+                    {
+                        <td>İsteğinize henüz yanıt verilmemiş.</td>
+                    }
+                  
+                   
+                    <td>
+                        <div class="btn-group" role="group">
+                            @if (advance.ApprovalStatus == ApprovalStatus.Pending)
+                            {
+                                <form asp-action="Edit" asp-route-id="@advance.EncryptedId" method="get">
+                                    <button type="submit" class="btn btn-primary">
+                                        Edit
+                                    </button>
+                                </form>
+                            }
+                            <form id="deleteForm-@advance.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <button type="button" class="btn btn-danger" onclick="deleteAdvance('@advance.EncryptedId')">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>
+<partial name="_pager" model="@pager" />
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('#advanceTable tbody tr').filter(function () {
+                    $(this).toggle($(this).find('td:nth-child(3)').text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $('.sort').on('click', function () {
+                var $table = $('#advanceTable');
+                var $rows = $table.find('tbody > tr').toArray().sort(comparer($(this).index()));
+                this.asc = !this.asc;
+                if (!this.asc) {
+                    $rows = $rows.reverse();
+                }
+                $table.children('tbody').empty().append($rows);
+            });
+
+
+            function comparer(index) {
+                return function (a, b) {
+                    var valA = getCellValue(a, index), valB = getCellValue(b, index)
+                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+                }
+            }
+
+            function getCellValue(row, index) {
+                return $(row).children('td').eq(index).text()
+            }
+
+        });
+
+        //description kolonu icin icerigi tooltip ile gosterme
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+}

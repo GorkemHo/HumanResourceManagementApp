@@ -1,0 +1,228 @@
+﻿@using IkMvc.Application.Model.Dto.JobDtos
+@using IkMvc.Application.Service.JobService
+
+@model RegisterDto
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .register-wrap {
+            position: relative;
+            margin: 0 auto;
+            background: #ecf0f1;
+            width: 350px;
+            border-radius: 5px;
+            box-shadow: 3px 3px 10px #333;
+            padding: 15px;
+        }
+
+            .register-wrap h2 {
+                text-align: center;
+                font-weight: 200;
+                font-size: 2em;
+                margin-top: 10px;
+                color: #34495e;
+            }
+
+            .register-wrap .form {
+                padding-top: 20px;
+            }
+
+            .register-wrap input[type="text"],
+            .register-wrap input[type="password"],
+            .register-wrap input[type="email"],
+            .register-wrap input[type="file"],
+            .register-wrap button {
+                width: 100%;
+                height: 40px;
+                border-radius: 5px;
+                outline: 0;
+                -moz-outline-style: none;
+                padding: 0 10px;
+                margin-bottom: 20px;
+            }
+
+            .register-wrap input[type="text"],
+            .register-wrap input[type="password"],
+            .register-wrap input[type="email"],
+            .register-wrap input[type="file"] {
+                border: 1px solid #bbb;
+                font-size: 14px;
+            }
+
+                .register-wrap input[type="text"]:focus,
+                .register-wrap input[type="password"]:focus,
+                .register-wrap input[type="email"]:focus,
+                .register-wrap input[type="file"]:focus {
+                    border: 1px solid #3498db;
+                }
+
+            .register-wrap a {
+                text-align: center;
+                font-size: 14px;
+                color: #3498db;
+                display: block;
+            }
+
+            .register-wrap button {
+                background: #e74c3c;
+                border: none;
+                color: white;
+                font-size: 18px;
+                font-weight: 200;
+                cursor: pointer;
+                transition: box-shadow .4s ease;
+            }
+
+                .register-wrap button:hover {
+                    box-shadow: 1px 1px 5px #555;
+                }
+
+                .register-wrap button:active {
+                    box-shadow: 1px 1px 7px #222;
+                }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="register-wrap">
+            <h2>User Registration</h2>
+            <form asp-action="Register" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <label asp-for="UserName">Username:</label>
+                    <input asp-for="UserName" class="form-control" />
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="FirstName">First Name:</label>
+                        <input asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="LastName">Last Name:</label>
+                        <input asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="MiddleName">Middle Name:</label>
+                        <input asp-for="MiddleName" class="form-control" />
+                        <span asp-validation-for="MiddleName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="SecondLastName">Second Last Name:</label>
+                        <input asp-for="SecondLastName" class="form-control" />
+                        <span asp-validation-for="SecondLastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="BirthDate">Birth Date:</label>
+                        <input asp-for="BirthDate" type="date" min="1900-01-01" max="2010-12-31" class="form-control" />
+                        <span asp-validation-for="BirthDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="BirthPlace">Birth Place:</label>
+                        <input asp-for="BirthPlace" class="form-control" />
+                        <span asp-validation-for="BirthPlace" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="TcIdentity">TC Identity:</label>
+                        <input asp-for="TcIdentity" class="form-control" />
+                        <span asp-validation-for="TcIdentity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="HireDate">Hire Date:</label>
+                        <input asp-for="HireDate" type="date" min="1900-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" class="form-control" />
+                        <span asp-validation-for="HireDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="PhoneNumber">Phone Number:</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Address">Address:</label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Salary">Salary:</label>
+                        <input asp-for="Salary" type="number" class="form-control" />
+                        <span asp-validation-for="Salary" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Email">Email:</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="Password">Password:</label>
+                        <input asp-for="Password" type="password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="ConfirmPassword">Confirm Password:</label>
+                        <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label asp-for="UploadPath">Upload Image:</label>
+                        <input asp-for="UploadPath" type="file" class="form-control-file" />
+                        <span asp-validation-for="UploadPath" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="JobId">Job:</label>
+                        <select asp-for="JobId" class="form-select">
+                            @foreach (JobDto dto in await JobService.Instance.GetAllJobs())
+                            {
+                                <option value="@dto.Id">
+                                    @dto.Name
+                                </option>
+                            }
+                        </select>
+                        <span asp-validation-for="JobId" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

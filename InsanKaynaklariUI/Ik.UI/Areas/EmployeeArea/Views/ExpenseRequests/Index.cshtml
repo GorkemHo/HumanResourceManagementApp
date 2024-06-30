@@ -1,0 +1,130 @@
+﻿@model IEnumerable<ExpenseRequestVm>
+
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "_EmployeeLayout";
+}
+
+@{
+    ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<h1>Expense</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Yeni Harcama Oluştur</a>
+</p>
+
+<div class="mb-3">
+    <input type="text" id="searchInput" class="form-control" placeholder="Search by Description">
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered" id="advanceTable">
+        <thead>
+            <tr>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="ExpenseType">
+                        Expense Type
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="amount">
+                        Amount
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="currency">
+                        Currency
+                    </a>
+                </th>                
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="approvalStatus">
+                        Approval Status
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="requestDate">
+                        Request Date
+                    </a>
+                </th>
+                <th>
+                    <a href="#" class="sort text-decoration-none text-primary" data-sort="responseDate">
+                        Response Date
+                    </a>
+                </th>                            
+                <th>Functions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>                    
+                    <td>@Html.DisplayFor(modelItem => item.ExpenseType)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Amount)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Currency)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ApprovalStatus)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RequestDate)</td>
+                    <td>@Html.DisplayFor(modelItem => item.ResponseDate)</td>                    
+                    <td>
+                        <div class="btn-group">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                            <a asp-action="GetExpenseRequestById" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                          
+                            <form id="deleteForm-@item.Id" method="post" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                <button type="button" class="btn btn-danger" onclick="deleteExpense(@item.Id)">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<partial name="_pager" model="@pager" />
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#searchInput').on('keyup', function () {
+                var value = $(this).val().toLowerCase();
+                $('#advanceTable tbody tr').filter(function () {
+                    $(this).toggle($(this).find('td:nth-child(4)').text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $('.sort').on('click', function () {
+                var $table = $('#advanceTable');
+                var $rows = $table.find('tbody > tr').toArray().sort(comparer($(this).index()));
+                this.asc = !this.asc;
+                if (!this.asc) {
+                    $rows = $rows.reverse();
+                }
+                $table.children('tbody').empty().append($rows);
+            });
+
+
+            // Comparison function for sorting
+            function comparer(index) {
+                return function (a, b) {
+                    var valA = getCellValue(a, index), valB = getCellValue(b, index)
+                    return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+                }
+            }
+
+            // Function to get cell value
+            function getCellValue(row, index) {
+                return $(row).children('td').eq(index).text()
+            }
+
+        });
+    </script>
+}

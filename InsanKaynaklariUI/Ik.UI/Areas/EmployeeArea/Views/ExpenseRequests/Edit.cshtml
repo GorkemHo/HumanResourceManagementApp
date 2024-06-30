@@ -1,0 +1,87 @@
+﻿@model IkMvc.Application.Model.Dto.ExpenseRequestDtos.UpdateExpenseRequestDto
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "_EmployeeLayout";
+    List<ExpenseType> expenseTypes = TempData["ExpenseTypes"] as List<ExpenseType>;
+    List<CurrencyType> currencyTypes = TempData["CurrencyType"] as List<CurrencyType>;
+}
+
+
+<h1>Kayıt Güncelleme</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+            <label asp-for="EmployeeId" class="control-label"></label>
+            <input asp-for="EmployeeId" class="form-control" />
+            <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>*@
+            <input type="hidden" asp-for="Id" value="@Model.Id" />
+            <input type="hidden" asp-for="EmployeeId" value="@Model.EmployeeId" />
+            <input type="hidden" asp-for="ApprovalStatus" value="@Model.ApprovalStatus" />
+            <input type="hidden" asp-for="ImageData" value="@Model.ImageData" />
+            <input type="hidden" asp-for="ResponseDate" value="@Model.ResponseDate" />
+
+            <div class="form-group">
+                <label asp-for="ExpenseType" class="control-label">Expense Type</label>
+                <select asp-for="ExpenseType" class="form-control">
+                    @foreach (var type in expenseTypes)
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </select>
+                <span asp-validation-for="ExpenseType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Amount" class="control-label">Amount</label>
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label">Currency</label>
+                <select asp-for="Currency" class="form-control">
+                    @foreach (var type in currencyTypes)
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </select>
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="ResponseDate" class="control-label"></label>
+            <input asp-for="ResponseDate" class="form-control" />
+            <span asp-validation-for="ResponseDate" class="text-danger"></span>
+            </div>*@
+            @*<div class="form-group">
+            <label asp-for="ApprovalStatus" class="control-label"></label>
+            <input asp-for="ApprovalStatus" class="form-control" />
+            <span asp-validation-for="ApprovalStatus" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="GetAllByPersonel">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

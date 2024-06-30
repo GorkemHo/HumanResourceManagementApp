@@ -1,0 +1,55 @@
+﻿
+
+@model IkMvc.Application.Model.Dto.DirectorDtos.DirectorDto
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Director/Views/Shared/_DirectorLayout.cshtml";
+    List<DepartmentDto> department = TempData["Departments"] as List<DepartmentDto>;
+    List<JobDto> job = TempData["Jobs"] as List<JobDto>;
+    List<CompanyDto> companies = TempData["Companies"] as List<CompanyDto>;
+}
+
+
+
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold text-center mb-8">Anasayfa</h1>
+    <div class="card">
+        <div class="profile-photo text-center">
+            <!-- 1. Profil fotoğrafını içeren div -->
+           
+            @if (Model.ImageData != null)
+            {
+                var imageBase64 = Convert.ToBase64String(Model.ImageData);
+                <img src="data:image/jpeg;base64,@imageBase64" alt="Profile Photo" id="profile-photo" class="mx-auto" /> <!-- 2. Resmi yatayda ortalamak için mx-auto sınıfı eklendi -->
+            }
+            else
+            {
+                <p class="no-photo">No profile photo available</p>
+            }
+        </div>
+        <hr>
+        <div class="row">
+
+            <div class="col-sm-3">First Name:</div>
+            <div class="col-sm-9">@Model.FirstName</div>
+            <div class="col-sm-3">Last Name:</div>
+            <div class="col-sm-9">@Model.LastName</div>
+            <div class="col-sm-3">Email:</div>
+            <div class="col-sm-9">@Model.Email</div>
+            <div class="col-sm-3">Phone :</div>
+            <div class="col-sm-9">@Model.PhoneNumber</div>
+            <div class="col-sm-3">Adress :</div>
+            <div class="col-sm-9">@Model.Address</div>
+            <div class="col-sm-3">Job  :</div>
+            <div class="col-sm-9">@job.FirstOrDefault(x => x.Id == Model.JobId).Name</div>
+            <div class="col-sm-3">Department :</div>
+            <div class="col-sm-9">@department.FirstOrDefault(x => x.DepartmentId == Model.DepartmentId).Name</div>
+            <div class="col-sm-3">Company :</div>
+            <div class="col-sm-9">@companies.FirstOrDefault(x => x.CompanyId == Model.CompanyId).Name</div>
+        </div>
+        <div class="btn-group">
+            <a asp-action="EditDirectorProfile" class="btn animate__animated animate__slideInLeft">Update</a>
+            <a asp-action="DirectorProfile" class="btn animate__animated animate__slideInRight">Details</a>
+        </div>
+    </div>
+</div>

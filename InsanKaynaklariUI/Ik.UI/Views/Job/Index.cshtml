@@ -1,0 +1,56 @@
+﻿@model IEnumerable<IkMvc.Application.Model.Dto.JobDtos.JobDto>
+
+@{
+    ViewData["Title"] = "Jobs";
+}
+
+<h2>Jobs</h2>
+
+<div>
+    <a href="@Url.Action("Create", "Job")" class="btn btn-success">Create New</a>
+</div>
+
+@if (Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Create Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var job in Model)
+            {
+                <tr>
+                    <td>@job.Id</td>
+                    <td>@job.Name</td>
+                    <td>@job.Description</td>
+                    <td>@job.CreateDate.ToString("dd/MM/yyyy")</td>
+                    <td>@job.Status</td>
+                    <td>
+                        <!-- Edit button -->
+                        <a href="@Url.Action("Edit", "Job", new { id = job.Id })" class="btn btn-primary">Edit</a>
+                        <!-- Details button -->
+                        <a href="@Url.Action("Details", "Job", new { id = job.Id })" class="btn btn-info">Details</a>
+                        <!-- Delete button -->
+                        <form asp-action="Delete" method="post" onsubmit="return confirm('Are you sure you want to delete this job?');">
+                            <input type="hidden" name="id" value="@job.Id" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        No jobs found.
+    </div>
+}

@@ -1,0 +1,66 @@
+.table-striped tbody tr:hover {
+    background-color: rgb(200, 211, 211);
+    transition: background-color 0.3s ease;
+}
+
+    /* Hover effect for buttons in table rows */
+    .table-striped tbody tr:hover .btn {
+        opacity: 1;
+        transition: opacity 0.3s ease;
+    }
+
+        /* Hover effect for buttons in table rows */
+        .table-striped tbody tr:hover .btn:hover {
+            filter: brightness(1.2);
+        }
+
+
+/* Bilgilendirme mesajý container'ý */
+#notification-overlay {
+    /*position: fixed;*/ /* Sayfa içeriði üzerinde sabit bir konumda olacak */
+    width: 100%;
+    /*height: 100%;*/
+    background-color: transparent;
+    z-index: 1000; /* Diðer öðelerin üstünde olacak */
+    display: none; /* Baþlangýçta gizli olacak */
+}
+
+/* Bilgilendirme mesajý */
+#notification-area {
+    position: fixed; /* Overlay'ý sabit konumda tutar */
+    top: 20%; /* Overlay'ý dikey eksende ortalar */
+    left: 50%; /* Overlay'ý yatay eksende ortalar */
+    transform: translate(-50%, -50%); /* Ortalamayý ayarlar */
+    padding: 20px;
+    z-index: 1001;
+}
+
+#logout-button .nav-link:hover {
+    background-color: #dc3545; /* Hover olduðunda arkaplan rengi */
+    color: #fff; /* Yazý rengi */
+}
+
+.description-column {
+    max-width: 200px; /* Ýstediðiniz geniþliði ayarlayabilirsiniz */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-photos img {
+    width: 100%; /* Ensures the image fills the circle */
+    height: auto;
+    border-radius: 20%; /* Makes the image itself appear oval */
+    border: none; /* Remove any additional border on the image */
+}
+
+.profile-photos {
+    border: hidden;
+    border-radius: 10%;
+    padding: 10px;
+    text-align: center;
+    width: 150px;
+    Adjust the width and height as needed height: 150px;
+    overflow: hidden;
+    Ensures the image stays within the circle
+}

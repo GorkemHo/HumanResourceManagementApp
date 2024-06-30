@@ -1,0 +1,147 @@
+﻿@using IkMvc.Application.Model.Vm.PagenationVm
+@model IEnumerable<IkMvc.Application.Model.Dto.EmployeeDto.EmployeeDto>
+
+@{
+    ViewData["Title"] = "Employee List";
+    Layout = "~/Areas/Director/Views/Shared/_DirectorLayout.cshtml";
+    List<JobDto> jobs = TempData["Jobs"] as List<JobDto>;
+    List<DepartmentDto> departments = TempData["Departments"] as List<DepartmentDto>;    
+    List<CompanyDto> companies = TempData["Companies"] as List<CompanyDto>;    
+}
+
+@{
+    ViewData["Title"] = "Index";
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+
+<h1 class="text-center">Employee List</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <a asp-action="EmployeeRegister" class="btn btn-success mb-3">Create New Employee</a>
+            <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search by Name">
+            <div class="table-responsive">
+                <table id="employeeTable" class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th onclick="sortTable(0)">User Name</th>
+                            <th onclick="sortTable(1)">Full Name</th>
+                            <th onclick="sortTable(2)">Birth Date</th>
+                            <th onclick="sortTable(3)">Department</th>
+                            <th onclick="sortTable(4)">Job Title</th>
+                            <th onclick="sortTable(5)">Company</th>
+                            <th>Image</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.UserName</td>
+                                <td>@($"{item.FirstName} {item.LastName}")</td>
+                                <td>@item.BirthDate.ToShortDateString()</td>
+                                <td>@departments.FirstOrDefault(x => x.DepartmentId == item.DepartmentId)?.Name</td>
+                                <td>@jobs.FirstOrDefault(x => x.Id == item.JobId)?.Name</td> 
+                                <td>@companies.FirstOrDefault(x => x.CompanyId == item.CompanyId)?.Name</td>
+                                <td>
+                                    @if(item.ImageData != null)
+                                    {
+                                        var imageBase64 = Convert.ToBase64String(item.ImageData);
+                                        <img src="data:image/jpeg;base64,@imageBase64" alt="Profile Photo" class="img-thumbnail" style="max-width: 100px; max-height: 100px;" />
+                                    }
+                                    else
+                                    {
+                                        <p class="no-photo">Not Found</p>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a asp-controller="Employee" asp-action="EmployeeUpdate" asp-route-decryptedUserName="@item.DecryptedUserName" class="btn btn-primary">Update</a>
+
+                                        <a asp-action="EmployeeDelete" asp-route-decryptedId="@item.DecryptedId" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>                
+            </div>
+            <partial name="_pager" model="@pager" />
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#employeeTable').DataTable();
+        });
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("employeeTable");
+            switching = true;
+            dir = "asc"; 
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount ++;
+                } else {
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        $(document).ready(function(){
+            $("#searchInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#employeeTable tbody tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+
+            $("th").click(function() {
+                $(this).animate({
+                    backgroundColor: "#337ab7",
+                    color: "#fff"
+                }, 300).delay(800).animate({
+                    backgroundColor: "",
+                    color: ""
+                }, 300);
+            });
+        });
+    </script>
+}

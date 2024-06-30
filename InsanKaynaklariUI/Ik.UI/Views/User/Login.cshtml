@@ -1,0 +1,241 @@
+﻿@model Ik_Bitirme.Application.Models.DTos.UserDtos.LoginDto
+@using IkMvc.Application.Service.UserService
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+﻿@{
+    var successMessage = TempData["Success"] as string;
+}
+
+@{
+    var errorMessage = TempData["Error"] as string;
+
+}
+@{
+    var warningMessage = TempData["Warning"] as string;
+
+}
+
+
+@{
+    var token = ViewContext.HttpContext.Request.Cookies["jwt"];
+    var user = await UserService.Instance.CurrentUser(token);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <style>
+
+        .container {
+            max-width: 350px;
+            background: #f8f9fd;
+            background: linear-gradient( 0deg, rgb(255, 255, 255) 0%, rgb(244, 247, 251) 100% );
+            border-radius: 40px;
+            padding: 25px 35px;
+            border: 5px solid rgb(255, 255, 255);
+            box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 30px 30px -20px;
+            margin: 20px;
+        }
+
+        .heading {
+            text-align: center;
+            font-weight: 900;
+            font-size: 30px;
+            color: rgb(16, 137, 211);
+        }
+
+        .form {
+            margin-top: 20px;
+        }
+
+            .form .input {
+                width: 100%;
+                background: white;
+                border: none;
+                padding: 15px 20px;
+                border-radius: 20px;
+                margin-top: 15px;
+                box-shadow: #cff0ff 0px 10px 10px -5px;
+                border-inline: 2px solid transparent;
+            }
+
+                .form .input::-moz-placeholder {
+                    color: rgb(170, 170, 170);
+                }
+
+                .form .input::placeholder {
+                    color: rgb(170, 170, 170);
+                }
+
+                .form .input:focus {
+                    outline: none;
+                    border-inline: 2px solid #12b1d1;
+                }
+
+            .form .forgot-password {
+                display: block;
+                margin-top: 10px;
+                margin-left: 10px;
+            }
+
+                .form .forgot-password a {
+                    font-size: 11px;
+                    color: #0099ff;
+                    text-decoration: none;
+                }
+
+            .form .login-button {
+                display: block;
+                width: 100%;
+                font-weight: bold;
+                background: linear-gradient( 45deg, rgb(16, 137, 211) 0%, rgb(18, 177, 209) 100% );
+                color: white;
+                padding-block: 15px;
+                margin: 20px auto;
+                border-radius: 20px;
+                box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 20px 10px -15px;
+                border: none;
+                transition: all 0.2s ease-in-out;
+            }
+
+                .form .login-button:hover {
+                    transform: scale(1.03);
+                    box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 23px 10px -20px;
+                }
+
+                .form .login-button:active {
+                    transform: scale(0.95);
+                    box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 15px 10px -10px;
+                }
+
+        .social-account-container {
+            margin-top: 25px;
+        }
+
+            .social-account-container .title {
+                display: block;
+                text-align: center;
+                font-size: 10px;
+                color: rgb(170, 170, 170);
+            }
+
+            .social-account-container .social-accounts {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                margin-top: 5px;
+            }
+
+                .social-account-container .social-accounts .social-button {
+                    background: linear-gradient(45deg, rgb(0, 0, 0) 0%, rgb(112, 112, 112) 100%);
+                    border: 5px solid white;
+                    padding: 5px;
+                    border-radius: 50%;
+                    width: 40px;
+                    aspect-ratio: 1;
+                    display: grid;
+                    place-content: center;
+                    box-shadow: rgba(133, 189, 215, 0.8784313725) 0px 12px 10px -8px;
+                    transition: all 0.2s ease-in-out;
+                }
+
+                    .social-account-container .social-accounts .social-button .svg {
+                        fill: white;
+                        margin: auto;
+                    }
+
+                    .social-account-container .social-accounts .social-button:hover {
+                        transform: scale(1.2);
+                    }
+
+                    .social-account-container .social-accounts .social-button:active {
+                        transform: scale(0.9);
+                    }
+
+        .agreement {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+            .agreement a {
+                text-decoration: none;
+                color: #0099ff;
+                font-size: 9px;
+            }
+
+        .ortala {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+
+    <link href="~/favicon.ico" rel="icon">
+</head>
+<body>
+    <div id="notification-area">
+    </div>
+
+    <div class="container text-center ortala">
+        
+        <div class="heading">Sign In</div>
+        
+        <form asp-action="Login" class="border p-4 rounded">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label">Username</label>
+                <input asp-for="UserName" class="form-control" placeholder="Enter your username" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">Password</label>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Enter your password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <span class="forgot-password"><a asp-controller="User" asp-action="ForgotPassword">Forgot Password ?</a></span>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+            <a asp-controller="Home" asp-action="Home">Home Page</a>
+        </form>
+
+
+    </div>
+
+
+    <script src="~/js/site.js"></script>
+
+
+    <script>
+    //Sayfaya gonderilen bilgilendirme mesajlari icin
+    var successMessage = '@(successMessage != null ? successMessage : "")';
+    if (successMessage.trim() !== "") {
+        showNotification('success', successMessage);
+    }
+
+    var errorMessage = '@(errorMessage != null ? errorMessage : "")';
+    if (errorMessage.trim() !== "") {
+        showNotification('error', errorMessage);
+    }
+
+    var warningMessage = '@(warningMessage != null ? warningMessage : "")';
+    if (warningMessage.trim() !== "") {
+        showNotification('warning', warningMessage);
+    }
+    </script>
+
+</body>
+</html>

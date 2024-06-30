@@ -1,0 +1,39 @@
+﻿/* Add custom styling for file input */
+.custom-file-label::after {
+    content: "Browse";
+}
+
+/* Add button hover effect */
+.btn-primary:hover {
+    background-color: #0069d9;
+}
+
+/* Add input focus effect */
+.form-control:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Add animation for input fields */
+@keyframes inputEffect {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+/* Apply animation to input fields */
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group input[type="date"],
+.form-group input[type="file"],
+.form-group input[type="number"],
+.form-group input[type="tel"] {
+    animation: inputEffect 0.5s ease-out forwards;
+}

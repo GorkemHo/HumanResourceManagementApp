@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "apis1": {
+      "apiEndpoint": "https://ik-bitirmeikapis.azure-api.net/",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.ApiManagement/service/Ik-BitirmeIkApis/apis/Ik-BitirmeIkApi",
+      "type": "apis.azure"
+    },
+    "mssql1": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Web/sites/insankaynaklari/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsDefaultConnection_47BB73E40C",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/ik-server/databases/InsanKaynaklariYonetim",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:DefaultConnection",
+      "dynamicId": null
+    }
+  }
+}

@@ -1,0 +1,150 @@
+﻿@model IkMvc.Application.Model.Dto.EmployeeDto.EmployeeDto
+
+@{
+    ViewData["Title"] = "EmployeeUpdate";
+    List<DepartmentDto> departments = TempData["Departments"] as List<DepartmentDto>;
+    List<JobDto> jobs = TempData["Jobs"] as List<JobDto>;
+    List<CompanyDto> companies = TempData["Companies"] as List<CompanyDto>;
+    Layout = "~/Areas/Director/Views/Shared/_DirectorLayout.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+    <h1 class="mb-4">Update Profile</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-action="EmployeeUpdate" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Id" type="hidden" />
+
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <td><label for="UserName" class="form-label">Username:</label></td>
+                            <td><input asp-for="UserName" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Password" class="form-label">Password:</label></td>
+                            <td><input asp-for="Password" type="password" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="ConfirmPassword" class="form-label">Confirm Password:</label></td>
+                            <td><input asp-for="ConfirmPassword" type="password" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Email" class="form-label">Email:</label></td>
+                            <td><input asp-for="Email" type="email" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="FirstName" class="form-label">First Name:</label></td>
+                            <td><input asp-for="FirstName" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="MiddleName" class="form-label">Middle Name:</label></td>
+                            <td><input asp-for="MiddleName" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="LastName" class="form-label">Last Name:</label></td>
+                            <td><input asp-for="LastName" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="SecondLastName" class="form-label">Second Last Name:</label></td>
+                            <td><input asp-for="SecondLastName" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="BirthDate" class="form-label">Birth Date:</label></td>
+                            <td><input asp-for="BirthDate" type="date" min="1900-01-01" max="2014-01-01" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="BirthPlace" class="form-label">Birth Place:</label></td>
+                            <td><input asp-for="BirthPlace" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="TcIdentity" class="form-label">TC Identity:</label></td>
+                            <td><input asp-for="TcIdentity" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="HireDate" class="form-label">Hire Date:</label></td>
+                            <td><input asp-for="HireDate" min="2010-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="TerminationDate" class="form-label">Termination Date:</label></td>
+                            <td><input asp-for="TerminationDate" min="2010-01-01" max="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="PhoneNumber" class="form-label">Phone Number:</label></td>
+                            <td><input asp-for="PhoneNumber" class="form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td><label for="Address" class="form-label">Address:</label></td>
+                            <td><input asp-for="Address" class="form-control" /></td>
+                        </tr>
+                        @if (departments != null)
+                        {
+                            <tr>
+                                <td><label for="DepartmentId" class="form-label">Department:</label></td>
+                                <td>
+                                    <select asp-for="DepartmentId" class="form-select">
+                                        <option value="">Select Department</option>
+                                        @foreach (var item in departments)
+                                        {
+                                            <option value="@item.DepartmentId">@item.Name</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                        }
+                        @if (jobs != null)
+                        {
+                            <tr>
+                                <td><label for="JobId" class="form-label">Job:</label></td>
+                                <td>
+                                    <select asp-for="JobId" class="form-select">
+                                        <option value="">Select Job</option>
+                                        @foreach (var item in jobs)
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                        }
+                        @if (companies != null)
+                        {
+                            <tr>
+                                <td><label for="CompanyId" class="form-label">Company:</label></td>
+                                <td>
+                                    <input type="hidden" asp-for="CompanyId" class="form-control">
+                                    <span asp-validation-for="CompanyId" class="text-danger"></span>
+                                </td>
+                            </tr>
+                        }
+
+                        <tr>
+                            <td><label for="Salary" class="form-label">Salary:</label></td>
+                            <td><input asp-for="Salary" class="form-control" /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="mb-3">
+                    <label for="imageFile" class="form-label">Image:</label>
+                    <input type="file" name="imageFile" class="form-control" />
+                    <span asp-validation-for="ImageData" class="text-danger"></span>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                </div>
+                
+            </form>
+
+            
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+}
